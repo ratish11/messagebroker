@@ -115,13 +115,32 @@ class ParticipantHandler implements Runnable {
                 System.out.println(pID);
                 if(!partcipantIDs.cotains(pID)) {
                     dos.writeUTF(pID);
-                    partcipantIDs.add(pID);
                     break;
                 }
             }
             String IP = dis.readUTF();
             int port = Integer.parseInt(dis.readUTF());
+            if(!partcipantIDs.contains(pID)) {
+                partcipantIDs.add(pID);
+                Queue<MessageData> q = new LinkedList<>();
+
+            }
 
         }
     }
+}
+
+class MessageData {
+    private String msg;
+    private Long timestamp;
+
+    public MessageData(String msg, Long ts) {
+        this.msg = msg;
+        this.timestamp = ts;
+    }
+
+    public String getMessage() {return message;}
+    public void setMessage(String message) {this.message = message}
+    public Long getTimestamp() {return timestamp;}
+    public void setTimestamp() {this.timestamp = timestamp;}
 }
