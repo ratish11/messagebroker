@@ -206,7 +206,7 @@ class ParticipantHandler implements Runnable {
                         Thread.sleep(100);
                         for(String id : partcipantIDs) {
                             System.out.println("checking if participant " + id + "is live")
-                            if(liveParticipants.contains(id)) {
+                            if(liveParticipants.contains(id) && id != pID) {
                                 System.out.println("transferring to participant : " + id);
                                 // Socket s = pSocketConn.get(id);
                                 DataOutputStream dos = new DataOutputStream(pSocketConn.get(id).getOutputStream());
