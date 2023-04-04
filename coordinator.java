@@ -33,6 +33,8 @@ public class coordinator {
             Scanner conf = new Scanner(conf);
             port = Integer.parseInt(conf.nextLine());
             threshold = Integer.parseInt(conf.nextLine());
+            threshold *= 1000;
+            System.out.println("System time threshold in miliseconds: " + String.valueOf(threshold));
             //instantiate data members
             partcipantIDs = new ArrayList<>();
             mQueue = new HashMap<>();
@@ -43,7 +45,7 @@ public class coordinator {
             serverSocket = new ServerSocket(port);
             System.out.println("Coordinator started....\n");
             while(true) {
-                tyr {
+                try {
                     socket = ss.accept();
                 } catch (IOException io) {
                     System.out.println("Error: Unable to connect participant");
@@ -62,10 +64,10 @@ public class coordinator {
 }
 
 class ParticipantHandler implements Runnable {
-    private Socket socket, participantSocket;
+    private Socket socket, pConn;
     private DataOutputStream dos;
     private DataInputStream dis;
-    private String pid;
+    private String pID;
     private int threshold;
     private String participantPort;
     private HashMap<String, Socket> pSocketConn;
@@ -75,7 +77,7 @@ class ParticipantHandler implements Runnable {
     private ArrayList<Integer> ports;
 
     public ParticipantHandler(Socket socket, ArrayList<String> partcipantIDs, HashMap<String, Queue> mQueue, HashMap<String, Socket> pSocketConn, ArrayList<String> liveParticipants, int threshold, ArrayList<String> ports) {
-        this.socket = s;
+        this.socket = socket;
         this.partcipantIDs = partcipantIDs;
         this.mQueue = mQueue;
         this.pSocketConn = pSocketConn;
@@ -101,6 +103,7 @@ class ParticipantHandler implements Runnable {
                     disconect(command);
                 else if (command.trim().startsWith("msend"))
                     msend(command);
+                System.out.println("participant ids " + partcipantIDs + " at " + System.currentTimeMillis())
             }
         } catch (IOException io) {
             io.printStackTrace();
@@ -108,24 +111,128 @@ class ParticipantHandler implements Runnable {
         }
 
         private void register(String command) {
-            dis = new DataInputStream(socket.getInputStream());
-            dos = new DataOutputStream(socket.getOutputStream());
-            while(true) {
-                UUID pID = UUID.randomUUID();
-                System.out.println(pID);
-                if(!partcipantIDs.cotains(pID)) {
-                    dos.writeUTF(pID);
-                    break;
+            try {
+                dis = new DataInputStream(socket.getInputStream());
+                dos = new DataOutputStream(socket.getOutputStream());
+                while(true) {
+                    UUID pid = UUID.randomUUID();
+                    pID = pid;
+                    System.out.println(pID);
+                    if(!partcipantIDs.cotains(pID)) {
+                        dos.writeUTF(pID);
+                        break;
+                    }
+                }
+                String IP = dis.readUTF();
+                int port = Integer.parseInt(dis.readUTF());
+                if(!partcipantIDs.contains(pID)) {
+                    partcipantIDs.add(pID);
+                    Queue<MessageData> msgQ = new LinkedList<>();
+                    mQueue.put(pID, msgQ);
+                    Thread.sleep(100);
+                    pConn = new Socket(IP, port);
+                    pSocketConn.put(pID, pConn);
+                    liveParticipants.add(pID);
+                    dos.writeUTF("Participant Registered Successfully !!")
+                    System.out.println("Participant " + pID + " Registered Successfully !!")
+                } else {
+                    dout.writeUTF(" User Already registered or ID alreadyin use");
+                }
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        }
+
+        public void deregister(String command) {
+            try {
+                partcipantIDs.remove(pID);
+                mQueue.remove(pID);
+                liveParticipants(pID);
+                pSocketConn.remove(pID);
+                pConn.close();
+            } catch(IOException io) {
+                io.printStackTrace();
+            }
+        }
+
+        public void reconnect(String command) {
+            try {
+                dis = new DataInputStream((socket.getInputStream()));
+                dos = new DataOutputStream(socket.getOutputStream());
+                String IP = dis.readUTF();
+                int port = Integer.parseInt(dis.readUTF());
+                if(partcipantIDs.contains(pID)) {
+                    if(!liveParticipants.contains(pID)) {
+                        Thread.sleep(100);
+                        pConn = new Socket(IP,port);
+                        pSocketConn.put(pID, pConn);
+                        liveParticipants.add(pID);
+                        dos.writeUTF("Participant reconnected successfully !!")
+                        System.out.println("Participant " + pID + " reconnected successfully !!")
+                        Queue<MessageData> msgQ = mQueue.get(pID);
+                        Thread.sleep(100);
+                        while(!msgQ.isEmpty()) {
+                            MessageData msg = msgQ.poll();
+                            if(System.currentTimeMillis() - msg.getTimestamp() <= threshold) {
+                                dos = new DataOutputStream(pConn.getOutputStream());
+                                dos.writeUTF(msg.getMessage());
+                            }
+                        }
+                    } else dout.writeUTF("Participant already connected and alive")
+                } else {
+                    dos.writeUTF("Participant not registered");
                 }
             }
-            String IP = dis.readUTF();
-            int port = Integer.parseInt(dis.readUTF());
-            if(!partcipantIDs.contains(pID)) {
-                partcipantIDs.add(pID);
-                Queue<MessageData> q = new LinkedList<>();
+        }
 
+        public void disconect(String command) {
+            try {
+                pSocketConn.remove(pConn);
+                liveParticipants.remove(pID);
+                pConn.close();
+            } catch (IOException io) {
+                io.printStackTrace();            
             }
+        }
 
+        public void msend(String command) {
+            try {
+                dis = new DataInputStream(socket.getInputStream());
+                dos = new DataOutputStream(socket.getOutputStream());
+                String msg = dis.readUTF();
+                if(partcipantIDs.contains(pID)) {
+                    if(liveParticipants.contains(pID)) {
+                        dos.writeUTF("Message received, now transferring");
+                        Thread.sleep(100);
+                        for(String id : partcipantIDs) {
+                            System.out.println("checking if participant " + id + "is live")
+                            if(liveParticipants.contains(id)) {
+                                System.out.println("transferring to participant : " + id);
+                                // Socket s = pSocketConn.get(id);
+                                DataOutputStream dos = new DataOutputStream(pSocketConn.get(id).getOutputStream());
+                                dos.writeUTF(msg);
+                            } else {
+                                System.out.println("Participant " + id + " is not live, caching...")
+                                Queue<MessageData> q = mQueue.get(id);
+                                q.add(new MessageData(msg, System.currentTimeMillis()));
+                                mQueue.put(id, q);
+                            }
+                        }
+                    } else {
+                        dos.writeUTF("Participant " + pID + " is not live");
+                    }
+                } else {
+                    dos.writeUTF("Participant " + pID + " is not registered");
+                }
+            } catch (IOException io) {
+                try {
+                    dos.writeUTF("Error: Unable to send message");
+                    System.out.println("Error: Unable to send message")
+                } catch {
+                    io.printStackTrace();
+                }
+            } catch (InterruptedException ie) {
+                ie.printStackTrace()            };
         }
     }
 }
