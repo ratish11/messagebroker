@@ -97,7 +97,7 @@ class ParticipantHandler implements Runnable {
                 System.out.println(command);
                 if (command.trim().startsWith("register"))
                     register(command);
-                else if (command.trim().startsWith("derigister"))
+                else if (command.trim().startsWith("deregister"))
                     deregister(command);
                 else if (command.trim().startsWith("reconect"))
                     reconnect(command);
