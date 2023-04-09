@@ -94,6 +94,7 @@ public class participant{
             dos.writeUTF(input);
             InetAddress address = InetAddress.getLocalHost();
             int port  = Integer.parseInt(input.split(" ")[1]);
+            System.out.print(String.valueOf(port));
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(partcipantID);
             dos.writeUTF(address.getHostAddress());
