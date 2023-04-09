@@ -19,8 +19,6 @@ public class participant{
     String partcipantID;
     String host;
     int port;
-    Boolean registered = false;
-    Boolean connected = false;
 //  String config_name;
     String log;
     private ThreadB threadB;
@@ -104,8 +102,6 @@ public class participant{
                 String ack = dis.readUTF();
                 System.out.println(ack);
                 if(!ack.equals("Participant Registered Successfully !!")) return;
-                registered = true;
-                connected = true;
                 threadB = new ThreadB(port, log);
                 new Thread(threadB).start();
             } catch (IOException ex) {
@@ -116,20 +112,18 @@ public class participant{
     }
 
     private void deregister(String input) {
-        if(registered) {
-            try {
-                dos = new DataOutputStream(socket.getOutputStream());
-                dos.writeUTF(input);
-                System.out.println("Deregistering participant: " + partcipantID);
-                Thread.sleep(200);
-                threadB.relinquish();
-                Thread.currentThread().stop();
-            } catch(InterruptedException ie) {
-                ie.printStackTrace();
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-        } else System.out.println("Participant is not registered, first register to deregister");
+        try {
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF(input);
+            System.out.println("Deregistering participant: " + partcipantID);
+            Thread.sleep(200);
+            threadB.relinquish();
+            Thread.currentThread().stop();
+        } catch(InterruptedException ie) {
+            ie.printStackTrace();
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
     private void reconnect(String input) {
@@ -156,37 +150,31 @@ public class participant{
 
     private void disconnect(String input) {
         System.out.println("disconnecting...")
-        if(registered && connected) {
-            try {
-                dos = new DataOutputStream(socket.getOutputStream());
-                dos.writeUTF(input);
-                Thread.sleep(200);
-                threadB.relinquish();
-            } catch(InterruptedException ie) {
-                ie.printStackTrace();
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-        } else System.out.println("Participant either not registered or not connected !!");
+        try {
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF(input);
+            Thread.sleep(200);
+            threadB.relinquish();
+        } catch(InterruptedException ie) {
+            ie.printStackTrace();
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
     private void msend(String input) {
-        if(registered) {
-            if(connected) {
-                try {
-                    dis = new DataInputStream(socket.getInputStream());
-                    dos = new DataOutputStream(socket.getOutputStream());
-                    dos.writeUTF(input);
-                    String message = partcipantID + ": " + input.substring(6);
-                    dos.writeUTF(message);
+        try {
+            dis = new DataInputStream(socket.getInputStream());
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF(input);
+            String message = partcipantID + ": " + input.substring(6);
+            dos.writeUTF(message);
 
-                    System.out.println(dis.readUTF());
-                }
-                catch (IOException io) {
-                    io.printStackTrace();   
-                }
-            } else System.out.println("Participant not connected");
-        } else System.out.println("Participant not registered");
+            System.out.println(dis.readUTF());
+        }
+        catch (IOException io) {
+            io.printStackTrace();   
+        }
     }
 
     public static void main(String args[]){
