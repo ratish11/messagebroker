@@ -80,8 +80,8 @@ public class participant{
                     System.out.print("Invalid command, try again..");
                 }
                 // return;
-            } catch (IOException io) {
-                io.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
                 // return;
             }
         }
