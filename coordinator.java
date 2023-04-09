@@ -173,6 +173,7 @@ class ParticipantHandler implements Runnable {
         try {
             dis = new DataInputStream((socket.getInputStream()));
             dos = new DataOutputStream(socket.getOutputStream());
+            String reconMsg = "";
             String IP = dis.readUTF();
             int port = Integer.parseInt(dis.readUTF());
             if(partcipantIDs.contains(pID)) {
@@ -181,17 +182,19 @@ class ParticipantHandler implements Runnable {
                     pConn = new Socket(IP,port);
                     pSocketConn.put(pID, pConn);
                     liveParticipants.add(pID);
-                    dos.writeUTF("Participant reconnected successfully !!");
+                    dos.writeUTF("Info: Participant reconnected successfully !!");
                     System.out.println("Participant " + pID + " reconnected successfully !!");
                     Queue<MessageData> msgQ = mQueue.get(pID);
                     Thread.sleep(100);
                     while(!msgQ.isEmpty()) {
                         MessageData msg = msgQ.poll();
                         if(System.currentTimeMillis() - msg.getTimestamp() <= threshold) {
-                            dos = new DataOutputStream(pConn.getOutputStream());
-                            dos.writeUTF(msg.getMessage());
+                            
+                            reconMsg += "\n" + msg.getMessage();
                         }
                     }
+                    dosB = new DataOutputStream(pConn.getOutputStream());
+                    dosB.writeUTF(reconMsg);
                 } else dos.writeUTF("Participant already connected and alive");
             } else {
                 dos.writeUTF("Participant not registered");

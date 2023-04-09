@@ -129,8 +129,9 @@ public class participant{
 
     private void reconnect(String input) {
         if(input.split(" ").length == 2) {
-                try {
+            try {
                 dos = new DataOutputStream(socket.getOutputStream());
+                dis = new DataInputStream(socket.getInputStream());
                 dos.writeUTF(input);
                 InetAddress address = InetAddress.getLocalHost();
                 int port  = Integer.parseInt(input.split(" ")[1]);
@@ -144,6 +145,13 @@ public class participant{
                 System.out.println(ack);
                 if(!ack.equals("User reconnected!"))
                     threadB.relinquish();
+                System.out.println("Info: gathering all new messages..");
+                // msg = dis.readUTF();
+                // System.out.println(msg);
+                // BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
+                // out.write(msg + "\n");
+                // out.close();
+                // System.out.print("participant> ");
 
             } catch (IOException ex) {
                 System.out.println("Unable to connect");
