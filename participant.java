@@ -117,6 +117,7 @@ public class participant{
             try {
                 dos = new DataOutputStream(socket.getOutputStream());
                 dos.writeUTF(input);
+                System.out.println("Deregistering participant: " + partcipantID)
                 threadB.relinquish();
             } catch (IOException io) {
                 io.printStackTrace();
