@@ -124,6 +124,8 @@ public class participant{
                 Thread.sleep(200);
                 threadB.relinquish();
                 Thread.currentThread().stop();
+            } catch(InterruptedException ie) {
+                ie.printStackTrace();
             } catch (IOException io) {
                 io.printStackTrace();
             }
@@ -159,6 +161,8 @@ public class participant{
                 dos.writeUTF(input);
                 Thread.sleep(200);
                 threadB.relinquish();
+            } catch(InterruptedException ie) {
+                ie.printStackTrace();
             } catch (IOException io) {
                 io.printStackTrace();
             }
