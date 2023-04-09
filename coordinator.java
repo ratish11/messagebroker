@@ -213,7 +213,7 @@ class ParticipantHandler implements Runnable {
             pSocketConn.remove(pConn);
             liveParticipants.remove(pID);
             pConn.close();
-            dos.writeUTF("disconnecting");
+            // dos.writeUTF("disconnecting");
         } catch (IOException io) {
             io.printStackTrace();
         }
