@@ -148,7 +148,7 @@ public class participant{
             } catch (IOException ex) {
                 System.out.println("Unable to connect");
             }
-        }
+        } else System.out.println("Error: invalid reconnect command, provide port");
     }
 
     private void disconnect(String input) {

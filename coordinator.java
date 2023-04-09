@@ -99,7 +99,7 @@ class ParticipantHandler implements Runnable {
                     register(command);
                 else if (command.trim().startsWith("deregister"))
                     deregister(command);
-                else if (command.trim().startsWith("reconect"))
+                else if (command.trim().startsWith("reconnect"))
                     reconnect(command);
                 else if (command.trim().startsWith("disconnect"))
                     disconect(command);
