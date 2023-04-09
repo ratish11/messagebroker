@@ -105,6 +105,8 @@ class ParticipantHandler implements Runnable {
                     disconect(command);
                 else if (command.trim().startsWith("msend"))
                     msend(command);
+                else
+                    System.out.println("Invalid command received");
                 System.out.println("participant ids " + partcipantIDs + " at " + System.currentTimeMillis());
             }
         } catch (IOException io) {
