@@ -19,6 +19,8 @@ public class participant{
     String partcipantID;
     String host;
     int port;
+    Boolean registered = false;
+    Boolean connected = false;
 //  String config_name;
     String log;
     private ThreadB threadB;
@@ -101,6 +103,8 @@ public class participant{
             System.out.println(ack);
             if(!ack.equals("Participant Registered Successfully !!"))
                 threadB.relinquish();
+            registered = true;
+            connected = true;
         } catch (IOException ex) {
             System.out.println("Error: Unable to connect");
             ex.printStackTrace();
@@ -108,7 +112,8 @@ public class participant{
     }
 
     private void deregister() {
-        threadB.relinquish();
+        if(registered) threadB.relinquish();
+        else System.out.println("Participant is not registered, first register to deregister");
     }
 
     private void reconnect(String input) {
@@ -131,9 +136,9 @@ public class participant{
         }
     }
 
-    private void disconnect()
-    {
-        threadB.relinquish();
+    private void disconnect() {
+        if(registered && connected) threadB.relinquish();
+        else System.out.println("Participant either not registered or not connected !!")
     }
 
     private void msend(String input) {
