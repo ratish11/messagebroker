@@ -76,8 +76,8 @@ public class participant{
                 } else if(inp.trim().startsWith("quit")){
                     deregister(inp);
                     System.exit(0);
-                } else {
-                    System.out.print("Invalid command, try again..");
+                } else if(inp != "") {
+                    System.out.print("Invalid command, try again..\n");
                 }
                 // return;
             } catch (Exception e) {
