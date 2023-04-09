@@ -112,7 +112,9 @@ public class participant{
     }
 
     private void deregister() {
-        if(registered) threadB.relinquish();
+        if(registered) {
+            threadB.relinquish();
+        }
         else System.out.println("Participant is not registered, first register to deregister");
     }
 
@@ -185,21 +187,22 @@ class ThreadB implements Runnable{
                 socket = serverSocket.accept();
             while(socket != null && serverSocket != null) {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
-                String msg = dis.readUTF();
                 Thread.sleep(200);
+                String msg = dis.readUTF();
                 System.out.println("\n"+msg);
                 BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
                 out.write(msg + "\n");
                 out.close();
                 System.out.print("participant> ");
             }
-        } catch (IOException | InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        } catch ( InterruptedException ie) {
+            ie.printStackTrace();
+        } catch (IOException io) {
+            io.printStackTrace();
+        } 
     }
 
-    public void relinquish()
-    {
+    public void relinquish() {
         try {
             if(socket != null)
             {
@@ -211,9 +214,10 @@ class ThreadB implements Runnable{
                 serverSocket.close();
                 serverSocket = null;
             }
+            Thread.currentThread().stop();
         }
         catch (IOException ex) {
             ex.printStackTrace();
-            }
+        }
     }
 }
