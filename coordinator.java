@@ -161,6 +161,7 @@ class ParticipantHandler implements Runnable {
             liveParticipants.remove(pID);
             pSocketConn.remove(pID);
             pConn.close();
+            Thread.currentThread().stop();
         } catch(IOException io) {
             io.printStackTrace();
         }
