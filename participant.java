@@ -49,12 +49,11 @@ public class participant{
     public void commandLine()
     {
         Scanner input = new Scanner(System.in);
-
         while(true)
         {
+            System.out.print("participant> ");
             try {
                 // Send command to server and call the function accordingly
-                System.out.print("participant> ");
                 String inp = input.nextLine();
                 dos = new DataOutputStream(socket.getOutputStream());
                 dos.writeUTF(inp);
@@ -72,15 +71,16 @@ public class participant{
                 }
                 else if(inp.startsWith("msend")){
                     msend(inp);
-                }
-                if(inp.trim().startsWith("quit")){
+                } else if(inp.trim().startsWith("quit")){
                     deregister();
                     System.exit(0);
+                } else {
+                    System.out.print("Invalid command, try again..")
                 }
                 // return;
             } catch (IOException io) {
                 io.printStackTrace();
-                return;
+                // return;
             }
         }
     }
@@ -108,7 +108,6 @@ public class participant{
     }
 
     private void deregister() {
-
         threadB.relinquish();
     }
 
@@ -179,8 +178,7 @@ class ThreadB implements Runnable{
             serverSocket = new ServerSocket(port);
             if(serverSocket != null)
                 socket = serverSocket.accept();
-            while(socket != null && serverSocket != null)
-            {
+            while(socket != null && serverSocket != null) {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 String msg = dis.readUTF();
                 Thread.sleep(200);
