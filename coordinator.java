@@ -156,6 +156,8 @@ class ParticipantHandler implements Runnable {
     public void deregister(String command) {
         System.out.println("Deregistering participant " + pID);
         try {
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF("deregistering")
             partcipantIDs.remove(pID);
             mQueue.remove(pID);
             liveParticipants.remove(pID);
@@ -203,6 +205,8 @@ class ParticipantHandler implements Runnable {
 
     public void disconect(String command) {
         try {
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF("disconnecting")
             pSocketConn.remove(pConn);
             liveParticipants.remove(pID);
             pConn.close();

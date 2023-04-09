@@ -69,7 +69,7 @@ public class participant{
                     reconnect(inp);
                 }
                 else if(inp.trim().startsWith("disconnect")){
-                    disconnect(inp);
+                    disconnect(inp.trim());
                 }
                 else if(inp.startsWith("msend")){
                     msend(inp);
@@ -121,7 +121,9 @@ public class participant{
                 dos = new DataOutputStream(socket.getOutputStream());
                 dos.writeUTF(input);
                 System.out.println("Deregistering participant: " + partcipantID);
+                Thread.sleep(200);
                 threadB.relinquish();
+                Thread.currentThread().stop();
             } catch (IOException io) {
                 io.printStackTrace();
             }
@@ -155,6 +157,7 @@ public class participant{
             try {
                 dos = new DataOutputStream(socket.getOutputStream());
                 dos.writeUTF(input);
+                Thread.sleep(200);
                 threadB.relinquish();
             } catch (IOException io) {
                 io.printStackTrace();
@@ -215,12 +218,14 @@ class ThreadB implements Runnable{
                 Thread.sleep(200);
                 // System.out.print("Stopping for input");
                 String msg = dis.readUTF();
-                // System.out.print("My wait is over");
-                System.out.println("\n"+msg);
-                BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
-                out.write(msg + "\n");
-                out.close();
-                System.out.print("participant> ");
+                    // System.out.print("My wait is over");
+                if(!msg.equals("disconnecting" || !msg.equals("deregistering")) {
+                    System.out.println("\n"+msg);
+                    BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
+                    out.write(msg + "\n");
+                    out.close();
+                    System.out.print("participant> ");
+                }    
             }
         } catch ( InterruptedException ie) {
             ie.printStackTrace();
@@ -243,7 +248,7 @@ class ThreadB implements Runnable{
                 serverSocket.close();
                 serverSocket = null;
             }
-            Thread.currentThread().stop();
+            // Thread.currentThread().stop();
         }
         catch (IOException ex) {
             ex.printStackTrace();
