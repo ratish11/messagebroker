@@ -162,20 +162,21 @@ public class participant{
             io.printStackTrace();
         }
     }
-
     private void msend(String input) {
-        try {
-            dis = new DataInputStream(socket.getInputStream());
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(input);
-            String message = partcipantID + ": " + input.substring(6);
-            dos.writeUTF(message);
+        if(input.split(" ").length == 2) {
+            try {
+                dis = new DataInputStream(socket.getInputStream());
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(input);
+                String message = partcipantID + ": " + input.substring(6);
+                dos.writeUTF(message);
 
-            System.out.println(dis.readUTF());
-        }
-        catch (IOException io) {
-            io.printStackTrace();   
-        }
+                System.out.println(dis.readUTF());
+            }
+            catch (IOException io) {
+                io.printStackTrace();   
+            }
+        } else System.out.println("Error: Invalid send command..");
     }
 
     public static void main(String args[]){
