@@ -128,24 +128,26 @@ public class participant{
     }
 
     private void reconnect(String input) {
-        try {
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(input);
-            InetAddress address = InetAddress.getLocalHost();
-            int port  = Integer.parseInt(input.split(" ")[1]);
-            threadB = new ThreadB(port, log);
-            new Thread(threadB).start();
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(address.getHostAddress());
-            dos.writeUTF(input.split(" ")[1]);
-            dis = new DataInputStream(socket.getInputStream());
-            String ack = dis.readUTF();
-            System.out.println(ack);
-            if(!ack.equals("User reconnected!"))
-                threadB.relinquish();
+        if(input.split(" ").length == 2) {
+                try {
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(input);
+                InetAddress address = InetAddress.getLocalHost();
+                int port  = Integer.parseInt(input.split(" ")[1]);
+                threadB = new ThreadB(port, log);
+                new Thread(threadB).start();
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(address.getHostAddress());
+                dos.writeUTF(input.split(" ")[1]);
+                dis = new DataInputStream(socket.getInputStream());
+                String ack = dis.readUTF();
+                System.out.println(ack);
+                if(!ack.equals("User reconnected!"))
+                    threadB.relinquish();
 
-        } catch (IOException ex) {
-            System.out.println("Unable to connect");
+            } catch (IOException ex) {
+                System.out.println("Unable to connect");
+            }
         }
     }
 
