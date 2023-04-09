@@ -218,7 +218,8 @@ class ThreadB implements Runnable{
             // ie.printStackTrace();
             return;
         } catch (IOException io) {
-            io.printStackTrace();
+            // io.printStackTrace();
+            return;
         } 
     }
 
