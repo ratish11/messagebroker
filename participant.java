@@ -63,13 +63,13 @@ public class participant{
                     register(inp, port);
                 }
                 else if(inp.trim().startsWith("deregister")){
-                    deregister();
+                    deregister(inp);
                 }
                 else if(inp.startsWith("reconnect")){
                     reconnect(inp);
                 }
                 else if(inp.trim().startsWith("disconnect")){
-                    disconnect();
+                    disconnect(inp);
                 }
                 else if(inp.startsWith("msend")){
                     msend(inp);
@@ -113,7 +113,7 @@ public class participant{
         }
     }
 
-    private void deregister() {
+    private void deregister(String input) {
         if(registered) {
             try {
                 dos = new DataOutputStream(socket.getOutputStream());
@@ -147,7 +147,7 @@ public class participant{
         }
     }
 
-    private void disconnect() {
+    private void disconnect(String input) {
         if(registered && connected) {
             try {
                 dos = new DataOutputStream(socket.getOutputStream());
