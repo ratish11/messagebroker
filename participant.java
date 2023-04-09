@@ -95,7 +95,7 @@ public class participant{
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(partcipantID);
             dos.writeUTF(address.getHostAddress());
-            dos.writeUTF(port);
+            dos.writeUTF(String.valueOf(port));
             dis = new DataInputStream(socket.getInputStream());
             String ack = dis.readUTF();
             System.out.println(ack);
