@@ -163,7 +163,7 @@ public class participant{
         }
     }
     private void msend(String input) {
-        if(input.split(" ").length == 2) {
+        if(input.split(" ").length > 1) {
             try {
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
