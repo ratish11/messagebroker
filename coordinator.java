@@ -218,7 +218,7 @@ class ParticipantHandler implements Runnable {
             String msg = dis.readUTF();
             if(partcipantIDs.contains(pID)) {
                 if(liveParticipants.contains(pID)) {
-                    dos.writeUTF("Message received, now transferring");
+                    dos.writeUTF("Message received, now transferring...");
                     Thread.sleep(100);
                     for(String id : partcipantIDs) {
                         if(id != pID) {

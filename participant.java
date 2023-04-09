@@ -93,7 +93,7 @@ public class participant{
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(input);
             InetAddress address = InetAddress.getLocalHost();
-            // int port  = Integer.parseInt(input.split(" ")[1]);
+            int port  = Integer.parseInt(input.split(" ")[1]);
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(partcipantID);
             dos.writeUTF(address.getHostAddress());
