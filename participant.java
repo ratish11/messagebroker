@@ -89,28 +89,30 @@ public class participant{
 
 
     private void register(String input) {
-        try {
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(input);
-            InetAddress address = InetAddress.getLocalHost();
-            int port  = Integer.parseInt(input.split(" ")[1]);
-            System.out.print(String.valueOf(port));
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(partcipantID);
-            dos.writeUTF(address.getHostAddress());
-            dos.writeUTF(String.valueOf(port));
-            dis = new DataInputStream(socket.getInputStream());
-            String ack = dis.readUTF();
-            System.out.println(ack);
-            if(!ack.equals("Participant Registered Successfully !!")) return;
-            registered = true;
-            connected = true;
-            threadB = new ThreadB(port, log);
-            new Thread(threadB).start();
-        } catch (IOException ex) {
-            System.out.println("Error: Unable to connect");
-            ex.printStackTrace();
-        }
+        if(input.split(" ").length == 2) {
+            try {
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(input);
+                InetAddress address = InetAddress.getLocalHost();
+                int port  = Integer.parseInt(input.split(" ")[1]);
+                // System.out.print(String.valueOf(port));
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(partcipantID);
+                dos.writeUTF(address.getHostAddress());
+                dos.writeUTF(String.valueOf(port));
+                dis = new DataInputStream(socket.getInputStream());
+                String ack = dis.readUTF();
+                System.out.println(ack);
+                if(!ack.equals("Participant Registered Successfully !!")) return;
+                registered = true;
+                connected = true;
+                threadB = new ThreadB(port, log);
+                new Thread(threadB).start();
+            } catch (IOException ex) {
+                System.out.println("Error: Unable to connect");
+                ex.printStackTrace();
+            }
+        } else System.out.println("Error: provide port")
     }
 
     private void deregister(String input) {
