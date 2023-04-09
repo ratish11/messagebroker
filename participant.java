@@ -101,10 +101,9 @@ public class participant{
             dis = new DataInputStream(socket.getInputStream());
             String ack = dis.readUTF();
             System.out.println(ack);
-            if(!ack.equals("Participant Registered Successfully !!"))
-                return;
             registered = true;
             connected = true;
+            if(!ack.equals("Participant Registered Successfully !!")) return;
             threadB = new ThreadB(port, log);
             new Thread(threadB).start();
         } catch (IOException ex) {
