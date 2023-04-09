@@ -59,7 +59,7 @@ public class participant{
                 dos = new DataOutputStream(socket.getOutputStream());
                 dos.writeUTF(inp);
                 if(inp.startsWith("register")){
-                    register(inp);
+                    register(inp, port);
                 }
                 else if(inp.trim().startsWith("deregister")){
                     deregister();
@@ -86,10 +86,10 @@ public class participant{
     }
 
 
-    private void register(String input) {
+    private void register(String input, int port) {
         try {
             InetAddress address = InetAddress.getLocalHost();
-            int port  = Integer.parseInt(input.split(" ")[1]);
+            // int port  = Integer.parseInt(input.split(" ")[1]);
             threadB = new ThreadB(port, log);
             new Thread(threadB).start();
             dos = new DataOutputStream(socket.getOutputStream());
