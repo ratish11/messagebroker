@@ -163,7 +163,7 @@ public class participant{
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(input);
-            String message = partcipantID + ": " input.substring(6);
+            String message = partcipantID + ": " + input.substring(6);
             dos.writeUTF(message);
 
             System.out.println(dis.readUTF());
