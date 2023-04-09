@@ -142,7 +142,7 @@ class ParticipantHandler implements Runnable {
                 dos.writeUTF("Participant Registered Successfully !!");
                 System.out.println("Participant " + pID + " Registered Successfully !!");
             } else {
-                dos.writeUTF("Participant already registered or ID already in use");
+                dos.writeUTF("Participant already registered or ID already in use, correct your ID!!");
                 System.out.println("Participant already registered or ID " + pID + " already in use");
             }
         } catch (InterruptedException ie) {
