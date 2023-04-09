@@ -138,7 +138,7 @@ public class participant{
 
     private void disconnect() {
         if(registered && connected) threadB.relinquish();
-        else System.out.println("Participant either not registered or not connected !!")
+        else System.out.println("Participant either not registered or not connected !!");
     }
 
     private void msend(String input) {
