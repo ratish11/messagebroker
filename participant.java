@@ -94,8 +94,6 @@ public class participant{
             dos.writeUTF(input);
             InetAddress address = InetAddress.getLocalHost();
             // int port  = Integer.parseInt(input.split(" ")[1]);
-            threadB = new ThreadB(port, log);
-            new Thread(threadB).start();
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(partcipantID);
             dos.writeUTF(address.getHostAddress());
@@ -104,9 +102,11 @@ public class participant{
             String ack = dis.readUTF();
             System.out.println(ack);
             if(!ack.equals("Participant Registered Successfully !!"))
-                threadB.relinquish();
+                return;
             registered = true;
             connected = true;
+            threadB = new ThreadB(port, log);
+            new Thread(threadB).start();
         } catch (IOException ex) {
             System.out.println("Error: Unable to connect");
             ex.printStackTrace();
