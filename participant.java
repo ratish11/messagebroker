@@ -155,6 +155,7 @@ public class participant{
     }
 
     private void disconnect(String input) {
+        System.out.println("disconnecting...")
         if(registered && connected) {
             try {
                 dos = new DataOutputStream(socket.getOutputStream());
