@@ -158,6 +158,7 @@ public class participant{
         participant participant = new participant(args[0]);
 
     }
+}
 
 class ThreadB implements Runnable{
     
@@ -212,6 +213,4 @@ class ThreadB implements Runnable{
             ex.printStackTrace();
             }
     }
-}
-
 }

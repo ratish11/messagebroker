@@ -88,7 +88,7 @@ class ParticipantHandler implements Runnable {
         this. ports = ports;
     }
 
-    public synchronized void run() {
+    public void run() {
         System.out.println("Participant " + socket.getInetAddress().getHostAddress() + " connected");
         try {
             while (true) {
@@ -117,15 +117,16 @@ class ParticipantHandler implements Runnable {
         try {
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
-            while(true) {
-                UUID pid = UUID.randomUUID();
-                pID = String.valueOf(pid);
-                System.out.println(pID);
-                if(!partcipantIDs.contains(pID)) {
-                    dos.writeUTF(pID);
-                    break;
-                }
-            }
+            // while(true) {
+            //     UUID pid = UUID.randomUUID();
+            //     pID = String.valueOf(pid);
+            //     System.out.println(pID);
+            //     if(!partcipantIDs.contains(pID)) {
+            //         dos.writeUTF(pID);
+            //         break;
+            //     }
+            // }
+            pID = dis.readUTF();
             String IP = dis.readUTF();
             int port = Integer.parseInt(dis.readUTF());
             if(!partcipantIDs.contains(pID)) {
