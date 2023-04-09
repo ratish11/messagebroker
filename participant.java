@@ -206,7 +206,9 @@ class ThreadB implements Runnable{
             while(socket != null && serverSocket != null) {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 Thread.sleep(200);
+                System.out.print("Stopping for input");
                 String msg = dis.readUTF();
+                System.out.print("My wait is over");
                 System.out.println("\n"+msg);
                 BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
                 out.write(msg + "\n");
