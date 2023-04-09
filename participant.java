@@ -215,7 +215,7 @@ class ThreadB implements Runnable{
                 System.out.print("participant> ");
             }
         } catch ( InterruptedException ie) {
-            // ie.printStackTrace();
+            ie.printStackTrace();
             return;
         } catch (IOException io) {
             // io.printStackTrace();
