@@ -74,7 +74,7 @@ public class participant{
                 else if(inp.startsWith("msend")){
                     msend(inp);
                 } else if(inp.trim().startsWith("quit")){
-                    deregister();
+                    deregister(inp);
                     System.exit(0);
                 } else {
                     System.out.print("Invalid command, try again..");
