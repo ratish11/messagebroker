@@ -102,7 +102,7 @@ class ParticipantHandler implements Runnable {
                 else if (command.trim().startsWith("reconnect"))
                     reconnect(command);
                 else if (command.trim().startsWith("disconnect"))
-                    disconect(command);
+                    disconnect(command);
                 else if (command.trim().startsWith("msend"))
                     msend(command);
                 else
@@ -206,7 +206,7 @@ class ParticipantHandler implements Runnable {
         }
     }
 
-    public void disconect(String command) {
+    public void disconnect(String command) {
         try {
             dos = new DataOutputStream(pSocketConn.get(pID).getOutputStream());
             dos.writeUTF("disconnecting");

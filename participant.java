@@ -143,7 +143,7 @@ public class participant{
                 dis = new DataInputStream(socket.getInputStream());
                 String ack = dis.readUTF();
                 System.out.println(ack);
-                if(!ack.equals("User reconnected!"))
+                if(!ack.equals("Info: Participant reconnected successfully !!"))
                     threadB.relinquish();
                 System.out.println("Info: gathering all new messages..");
                 // msg = dis.readUTF();
