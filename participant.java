@@ -75,7 +75,7 @@ public class participant{
                     deregister();
                     System.exit(0);
                 } else {
-                    System.out.print("Invalid command, try again..")
+                    System.out.print("Invalid command, try again..");
                 }
                 // return;
             } catch (IOException io) {
