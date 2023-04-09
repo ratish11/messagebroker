@@ -214,7 +214,7 @@ class ParticipantHandler implements Runnable {
             pSocketConn.remove(pConn);
             liveParticipants.remove(pID);
             pConn.close();
-            System.out.println("Info: Participant " + pID + " disconnected")
+            System.out.println("Info: Participant " + pID + " disconnected");
             // dos.writeUTF("disconnecting");
         } catch (IOException io) {
             io.printStackTrace();
