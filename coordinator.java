@@ -220,18 +220,21 @@ class ParticipantHandler implements Runnable {
                     dos.writeUTF("Message received, now transferring");
                     Thread.sleep(100);
                     for(String id : partcipantIDs) {
-                        System.out.println("checking if participant " + id + "is live");
-                        if(liveParticipants.contains(id) && id != pID) {
-                            System.out.println("transferring to participant : " + id);
-                            // Socket s = pSocketConn.get(id);
-                            DataOutputStream dos = new DataOutputStream(pSocketConn.get(id).getOutputStream());
-                            dos.writeUTF(msg);
-                        } else {
-                            System.out.println("Participant " + id + " is not live, caching...");
-                            Queue<MessageData> q = mQueue.get(id);
-                            q.add(new MessageData(msg, System.currentTimeMillis()));
-                            mQueue.put(id, q);
+                        if(id != pID) {
+                            System.out.println("checking if participant " + id + " is live");
+                            if(liveParticipants.contains(id)) {
+                                System.out.println("transferring to participant : " + id);
+                                // Socket s = pSocketConn.get(id);
+                                DataOutputStream dos = new DataOutputStream(pSocketConn.get(id).getOutputStream());
+                                dos.writeUTF(msg);
+                            } else {
+                                System.out.println("Participant " + id + " is not live, caching...");
+                                Queue<MessageData> q = mQueue.get(id);
+                                q.add(new MessageData(msg, System.currentTimeMillis()));
+                                mQueue.put(id, q);
+                            }
                         }
+                        
                     }
                 } else {
                     dos.writeUTF("Participant " + pID + " is not live");
