@@ -95,11 +95,11 @@ public class participant{
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(partcipantID);
             dos.writeUTF(address.getHostAddress());
-            dos.writeUTF(input.split(" ")[1]);
+            dos.writeUTF(port);
             dis = new DataInputStream(socket.getInputStream());
             String ack = dis.readUTF();
             System.out.println(ack);
-            if(!ack.equals("User registered!"))
+            if(!ack.equals("Participant Registered Successfully !!"))
                 threadB.relinquish();
         } catch (IOException ex) {
             System.out.println("Error: Unable to connect");
