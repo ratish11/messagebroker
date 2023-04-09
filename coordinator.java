@@ -108,6 +108,7 @@ class ParticipantHandler implements Runnable {
                 else
                     System.out.println("Invalid command received");
                 System.out.println("participant ids " + partcipantIDs + " at " + System.currentTimeMillis());
+                System.out.println("live participant ids " + liveParticipants + " at " + System.currentTimeMillis());
             }
         } catch (IOException io) {
             io.printStackTrace();
