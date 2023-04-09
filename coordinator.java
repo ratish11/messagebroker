@@ -136,11 +136,11 @@ class ParticipantHandler implements Runnable {
                 Queue<MessageData> msgQ = new LinkedList<>();
                 mQueue.put(pID, msgQ);
                 dos.writeUTF("Participant Registered Successfully !!");
-                System.out.println("Info: Participant " + pID + " Registered Successfully !!");
                 Thread.sleep(500);
                 pConn = new Socket(IP, port);
                 pSocketConn.put(pID, pConn);
                 liveParticipants.add(pID);
+                System.out.println("Info: Participant " + pID + " Registered Successfully !!");
                 System.out.println("Info: participant " + pID + " B thread connected");
             } else {
                 dos.writeUTF("Participant already registered or ID already in use, correct your ID!!");
