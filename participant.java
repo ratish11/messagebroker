@@ -159,18 +159,22 @@ public class participant{
     }
 
     private void msend(String input) {
-        try {
-            dis = new DataInputStream(socket.getInputStream());
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(input);
-            String message = partcipantID + ": " + input.substring(6);
-            dos.writeUTF(message);
+        if(registered) {
+            if(connected) {
+                try {
+                    dis = new DataInputStream(socket.getInputStream());
+                    dos = new DataOutputStream(socket.getOutputStream());
+                    dos.writeUTF(input);
+                    String message = partcipantID + ": " + input.substring(6);
+                    dos.writeUTF(message);
 
-            System.out.println(dis.readUTF());
-        }
-        catch (IOException io) {
-            io.printStackTrace();   
-        }
+                    System.out.println(dis.readUTF());
+                }
+                catch (IOException io) {
+                    io.printStackTrace();   
+                }
+            }} else System.out.println("Participant not connected");
+        } else System.out.println("Participant not registered");
     }
 
     public static void main(String args[]){
@@ -205,9 +209,9 @@ class ThreadB implements Runnable{
             while(socket != null && serverSocket != null) {
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 Thread.sleep(200);
-                System.out.print("Stopping for input");
+                // System.out.print("Stopping for input");
                 String msg = dis.readUTF();
-                System.out.print("My wait is over");
+                // System.out.print("My wait is over");
                 System.out.println("\n"+msg);
                 BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
                 out.write(msg + "\n");

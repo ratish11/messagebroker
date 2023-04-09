@@ -137,7 +137,7 @@ class ParticipantHandler implements Runnable {
                 mQueue.put(pID, msgQ);
                 dos.writeUTF("Participant Registered Successfully !!");
                 System.out.println("Info: Participant " + pID + " Registered Successfully !!");
-                Thread.sleep(100);
+                Thread.sleep(500);
                 pConn = new Socket(IP, port);
                 pSocketConn.put(pID, pConn);
                 liveParticipants.add(pID);
@@ -240,7 +240,7 @@ class ParticipantHandler implements Runnable {
                     dos.writeUTF("Participant " + pID + " is not live");
                 }
             } else {
-                dos.writeUTF("Participant " + pID + " is not registered");
+                dos.writeUTF("Participant is not registered");
             }
         } catch (IOException io) {
             try {
