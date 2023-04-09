@@ -112,7 +112,7 @@ public class participant{
                 System.out.println("Error: Unable to connect");
                 ex.printStackTrace();
             }
-        } else System.out.println("Error: provide port")
+        } else System.out.println("Error: provide port");
     }
 
     private void deregister(String input) {
