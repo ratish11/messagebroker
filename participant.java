@@ -173,7 +173,7 @@ public class participant{
                 catch (IOException io) {
                     io.printStackTrace();   
                 }
-            }} else System.out.println("Participant not connected");
+            } else System.out.println("Participant not connected");
         } else System.out.println("Participant not registered");
     }
 
