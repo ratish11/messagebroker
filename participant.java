@@ -41,7 +41,7 @@ public class participant{
             // Start Command line
             commandLine();
         } catch (IOException ex) {
-            System.out.println("Error: Configuration file");
+            ex.printStackTrace();
             System.exit(0);
         }
     }

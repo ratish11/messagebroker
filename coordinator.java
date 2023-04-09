@@ -193,7 +193,7 @@ class ParticipantHandler implements Runnable {
                             reconMsg += "\n" + msg.getMessage();
                         }
                     }
-                    dosB = new DataOutputStream(pConn.getOutputStream());
+                    DataOutputStream dosB = new DataOutputStream(pConn.getOutputStream());
                     dosB.writeUTF(reconMsg);
                 } else dos.writeUTF("Participant already connected and alive");
             } else {
