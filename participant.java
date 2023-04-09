@@ -103,7 +103,7 @@ public class participant{
             System.out.println(ack);
             registered = true;
             connected = true;
-            if(!ack.equals("Participant Registered Successfully !!")) return;
+            // if(!ack.equals("Participant Registered Successfully !!")) return;
             threadB = new ThreadB(port, log);
             new Thread(threadB).start();
         } catch (IOException ex) {
