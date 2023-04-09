@@ -60,7 +60,7 @@ public class participant{
                 // dos = new DataOutputStream(socket.getOutputStream());
                 // dos.writeUTF(inp);
                 if(inp.startsWith("register")){
-                    register(inp, port);
+                    register(inp);
                 }
                 else if(inp.trim().startsWith("deregister")){
                     deregister(inp);
@@ -88,7 +88,7 @@ public class participant{
     }
 
 
-    private void register(String input, int port) {
+    private void register(String input) {
         try {
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(input);
