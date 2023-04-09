@@ -151,7 +151,7 @@ class ParticipantHandler implements Runnable {
     }
 
     public void deregister(String command) {
-        System.out.println("Desegistering participant " + pID);
+        System.out.println("Deregistering participant " + pID);
         try {
             partcipantIDs.remove(pID);
             mQueue.remove(pID);

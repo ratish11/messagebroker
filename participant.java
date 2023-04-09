@@ -57,8 +57,8 @@ public class participant{
             try {
                 // Send command to server and call the function accordingly
                 String inp = input.nextLine();
-                dos = new DataOutputStream(socket.getOutputStream());
-                dos.writeUTF(inp);
+                // dos = new DataOutputStream(socket.getOutputStream());
+                // dos.writeUTF(inp);
                 if(inp.startsWith("register")){
                     register(inp, port);
                 }
@@ -90,6 +90,8 @@ public class participant{
 
     private void register(String input, int port) {
         try {
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF(input);
             InetAddress address = InetAddress.getLocalHost();
             // int port  = Integer.parseInt(input.split(" ")[1]);
             threadB = new ThreadB(port, log);
@@ -113,13 +115,20 @@ public class participant{
 
     private void deregister() {
         if(registered) {
-            threadB.relinquish();
-        }
-        else System.out.println("Participant is not registered, first register to deregister");
+            try {
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(input);
+                threadB.relinquish();
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        } else System.out.println("Participant is not registered, first register to deregister");
     }
 
     private void reconnect(String input) {
         try {
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF(input);
             InetAddress address = InetAddress.getLocalHost();
             int port  = Integer.parseInt(input.split(" ")[1]);
             threadB = new ThreadB(port, log);
@@ -139,16 +148,25 @@ public class participant{
     }
 
     private void disconnect() {
-        if(registered && connected) threadB.relinquish();
-        else System.out.println("Participant either not registered or not connected !!");
+        if(registered && connected) {
+            try {
+                dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeUTF(input);
+                threadB.relinquish();
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        } else System.out.println("Participant either not registered or not connected !!");
     }
 
     private void msend(String input) {
         try {
-            String message = input.substring(6);
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(message);
             dis = new DataInputStream(socket.getInputStream());
+            dos = new DataOutputStream(socket.getOutputStream());
+            dos.writeUTF(input);
+            String message = input.substring(6);
+            dos.writeUTF(message);
+
             System.out.println(dis.readUTF());
         }
         catch (IOException io) {
