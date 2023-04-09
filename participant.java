@@ -219,7 +219,7 @@ class ThreadB implements Runnable{
                 // System.out.print("Stopping for input");
                 String msg = dis.readUTF();
                     // System.out.print("My wait is over");
-                if(!msg.equals("disconnecting" || !msg.equals("deregistering")) {
+                if(!msg.equals("disconnecting") || !msg.equals("deregistering")) {
                     System.out.println("\n"+msg);
                     BufferedWriter out = new BufferedWriter(new FileWriter(log_name, true));
                     out.write(msg + "\n");
