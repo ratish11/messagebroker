@@ -77,7 +77,7 @@ public class participant{
                     deregister();
                     System.exit(0);
                 }
-                return;
+                // return;
             } catch (IOException io) {
                 io.printStackTrace();
                 return;
