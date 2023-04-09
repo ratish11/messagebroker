@@ -112,6 +112,7 @@ public class participant{
     }
 
     private void deregister(String input) {
+        System.out.println("deregistering...");
         try {
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(input);
@@ -149,7 +150,7 @@ public class participant{
     }
 
     private void disconnect(String input) {
-        System.out.println("disconnecting...")
+        System.out.println("disconnecting...");
         try {
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF(input);
