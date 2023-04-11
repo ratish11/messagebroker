@@ -60,13 +60,13 @@ public class participant{
                 if(inp.startsWith("register")){
                     register(inp);
                 }
-                else if(inp.trim().startsWith("deregister")){
+                else if(inp.trim().equals("deregister")){
                     deregister(inp);
                 }
                 else if(inp.startsWith("reconnect")){
                     reconnect(inp);
                 }
-                else if(inp.trim().startsWith("disconnect")){
+                else if(inp.trim().equals("disconnect")){
                     disconnect(inp.trim());
                 }
                 else if(inp.startsWith("msend")){
