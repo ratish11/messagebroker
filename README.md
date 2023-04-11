@@ -5,7 +5,7 @@
 -	Ratish Jha
 	
 Compiling instructions:
-- coordinator: javac coordinator.java
+- coordinator: javac coordinator.java \n
                java coordinator coordinator-conf.txt
-- participant: javac participant.java
+- participant: javac participant.java \n
                java participant participant-conf.txt
