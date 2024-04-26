@@ -1,30 +1,33 @@
-Project Title
 
-Distributed Messaging System
-Overview
+# Distributed Messaging System
+
+## Overview
 
 This project implements a distributed messaging system consisting of a coordinator and multiple participants. The coordinator manages the registration, deregistration, and message routing among participants. Participants can register with the coordinator, send and receive messages, and disconnect/reconnect as needed.
-Installation
+
+## Installation
 
 To run the system, you need Java installed on your system. Follow these steps:
 
-    Clone the repository:
+1. Clone the repository:
 
-    bash
+   ```bash
+   git clone https://github.com/your/repository.git
+```
 
-git clone https://github.com/your/repository.git
+
 
 Compile the Java files:
 
-bash
+```bash
 
-javac coordinator.java participant.java
+javac coordinator.java participant.java```
 
 Run the coordinator:
 
-bash
+```bash
 
-java coordinator <config_file>
+java coordinator <config_file> ```
 
 Run participants:
 
@@ -52,8 +55,6 @@ Each participant needs a configuration file containing the following information
     Port number
 
 Example configuration file (config.txt):
-
-c
 
 participant1
 log.txt
