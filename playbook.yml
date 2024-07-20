@@ -1,0 +1,7 @@
+---
+- name: Basic Hello World Playbook
+  hosts: all
+  tasks:
+    - name: Print Hello World
+      ansible.builtin.command:
+        cmd: echo "Hello, World!"
